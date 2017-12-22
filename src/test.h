@@ -141,6 +141,11 @@ public:
         (void)length;
         return 0;
     }
+
+    virtual ParseResultBase* Parse(const char* json, size_t length, const char* case_name) const {
+        (void)case_name;
+        return Parse(json, length);
+    }
 #endif
 
 #if TEST_STRINGIFY
@@ -148,12 +153,22 @@ public:
         (void)parseResult;
         return 0;
     }
+
+    virtual StringResultBase* Stringify(const ParseResultBase* parseResult, const char* case_name) const {
+        (void)case_name;
+        return Stringify(parseResult);
+    }
 #endif
 
 #if TEST_PRETTIFY
     virtual StringResultBase* Prettify(const ParseResultBase* parseResult) const {
         (void)parseResult;
         return 0;
+    }
+
+    virtual StringResultBase* Prettify(const ParseResultBase* parseResult, const char* case_name) const {
+        (void)case_name;
+        return Prettify(parseResult);
     }
 #endif
 
@@ -163,6 +178,11 @@ public:
         (void)stat;
         return false;
     }
+
+    virtual bool Statistics(const ParseResultBase* parseResult, Stat* stat, const char* case_name) const {
+		(void)case_name;
+        return Statistics(parseResult, stat);
+    }
 #endif
 
 #if TEST_SAXROUNDTRIP
@@ -170,6 +190,11 @@ public:
         (void)json;
         (void)length;
         return 0;
+    }
+
+    virtual StringResultBase* SaxRoundtrip(const char* json, size_t length, const char* case_name) const {
+        (void)case_name;
+        return SaxRoundtrip(json, length);
     }
 #endif
 
@@ -180,6 +205,11 @@ public:
         (void)stat;
         return false;
     }
+
+	virtual bool SaxStatistics(const char* json, size_t length, Stat* stat, const char* case_name) const {
+        (void)case_name;
+        return SaxStatistics(json, length, stat);
+	}
 #endif
 
 #if TEST_SAXSTATISTICSUTF16
@@ -188,6 +218,11 @@ public:
         (void)length;
         (void)stat;
         return false;
+    }
+
+    virtual bool SaxStatisticsUTF16(const char* json, size_t length, Stat* stat, const char* case_name) const {
+        (void)case_name;
+        return SaxStatisticsUTF16(json, length, stat);
     }
 #endif
 

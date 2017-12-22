@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 	const TestBase& test = *TestManager::Instance().GetTests().front();
     test.SetUp();
 
-    ParseResultBase* dom = test.Parse(json, length);
+    ParseResultBase* dom = test.Parse(json, length, ":jsonstat");
     free(json);
 
     Stat stat;

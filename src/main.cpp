@@ -145,12 +145,12 @@ static bool ReadFiles(const char* path, TestJsonList& testJsons) {
 
             // Generate reference statistics
 #if TEST_SAXSTATISTICS
-            if (!referenceTest->SaxStatistics(t.json, t.length, &t.stat))
+            if (!referenceTest->SaxStatistics(t.json, t.length, &t.stat, filename))
                 printf("Failed to generate reference statistics\n");
 #endif
 
 #if TEST_SAXSTATISTICSUTF16
-            if (!referenceTest->SaxStatisticsUTF16(t.json, t.length, &t.statUTF16))
+            if (!referenceTest->SaxStatisticsUTF16(t.json, t.length, &t.statUTF16, filename))
                 printf("Failed to generate reference UTF16 statistics\n");
 #endif
             printf("Read '%s' (%u bytes)\n", t.filename, (unsigned)t.length);
@@ -207,7 +207,7 @@ static void Verify(const TestBase& test, const TestJsonList& testJsons) {
         MEMORYSTAT_SCOPE();
 
         test.SetUp();
-        ParseResultBase* dom1 = test.Parse(itr->json, itr->length);
+        ParseResultBase* dom1 = test.Parse(itr->json, itr->length, itr->filename);
         if (!dom1) {
             printf("\nFailed to parse '%s'\n", itr->filename);
             failed = true;
@@ -216,14 +216,14 @@ static void Verify(const TestBase& test, const TestJsonList& testJsons) {
         }
 
         Stat stat1;
-        if (!test.Statistics(dom1, &stat1)) {
+        if (!test.Statistics(dom1, &stat1, itr->filename)) {
             printf("Not support Statistics\n");
             delete dom1;
             test.TearDown();
             continue;
         }
 
-        StringResultBase* json1 = test.Stringify(dom1);
+        StringResultBase* json1 = test.Stringify(dom1, itr->filename);
         delete dom1;
 
         if (!json1) {
@@ -243,7 +243,7 @@ static void Verify(const TestBase& test, const TestJsonList& testJsons) {
             continue;
         }
 
-        ParseResultBase* dom2 = test.Parse(json1->c_str(), strlen(json1->c_str()));
+        ParseResultBase* dom2 = test.Parse(json1->c_str(), strlen(json1->c_str()), itr->filename);
         if (!dom2) {
             printf("\nFailed to parse '%s' 2nd time\n", itr->filename);
             failed = true;
@@ -262,9 +262,9 @@ static void Verify(const TestBase& test, const TestJsonList& testJsons) {
         }
 
         Stat stat2;
-        test.Statistics(dom2, &stat2);
+        test.Statistics(dom2, &stat2, itr->filename);
 
-        StringResultBase* json2 = test.Stringify(dom2);
+        StringResultBase* json2 = test.Stringify(dom2, itr->filename);
         delete dom2;
 
         Stat* statProblem = 0;
@@ -314,7 +314,7 @@ static void Verify(const TestBase& test, const TestJsonList& testJsons) {
     for (TestJsonList::const_iterator itr = testJsons.begin(); itr != testJsons.end(); ++itr) {
         MEMORYSTAT_SCOPE();
         Stat stat1;
-        if (test.SaxStatistics(itr->json, itr->length, &stat1)) {
+        if (test.SaxStatistics(itr->json, itr->length, &stat1, test.GetName())) {
             if (memcmp(&stat1, &itr->stat, sizeof(Stat)) != 0 &&
                 memcmp(&stat1, &itr->statUTF16, sizeof(Stat)) != 0)
             {
@@ -373,7 +373,7 @@ static void BenchParse(const TestBase& test, const TestJsonList& testJsons, FILE
                 MEMORYSTAT_SCOPE();
 
                 timer.Start();
-                dom = test.Parse(itr->json, itr->length);
+                dom = test.Parse(itr->json, itr->length, itr->filename);
                 timer.Stop();
 
                 BENCH_MEMORYSTAT_ITERATION(trial);
@@ -420,7 +420,7 @@ static void BenchStringify(const TestBase& test, const TestJsonList& testJsons, 
 
         test.SetUp();
         double minDuration = DBL_MAX;
-        ParseResultBase* dom = test.Parse(itr->json, itr->length);
+        ParseResultBase* dom = test.Parse(itr->json, itr->length, itr->filename);
 
         BENCH_MEMORYSTAT_INIT();
         bool supported = true;
@@ -431,7 +431,7 @@ static void BenchStringify(const TestBase& test, const TestJsonList& testJsons, 
                 MEMORYSTAT_SCOPE();
 
                 timer.Start();
-                json = test.Stringify(dom);
+                json = test.Stringify(dom, itr->filename);
                 timer.Stop();
 
                 BENCH_MEMORYSTAT_ITERATION(trial);
@@ -479,7 +479,7 @@ static void BenchPrettify(const TestBase& test, const TestJsonList& testJsons, F
 
         test.SetUp();
         double minDuration = DBL_MAX;
-        ParseResultBase* dom = test.Parse(itr->json, itr->length);
+        ParseResultBase* dom = test.Parse(itr->json, itr->length, itr->filename);
 
         BENCH_MEMORYSTAT_INIT();
         bool supported = true;
@@ -490,7 +490,7 @@ static void BenchPrettify(const TestBase& test, const TestJsonList& testJsons, F
                 MEMORYSTAT_SCOPE();
 
                 timer.Start();
-                json = test.Prettify(dom);
+                json = test.Prettify(dom, itr->filename);
                 timer.Stop();
 
                 BENCH_MEMORYSTAT_ITERATION(trial);
@@ -538,7 +538,7 @@ static void BenchStatistics(const TestBase& test, const TestJsonList& testJsons,
 
         test.SetUp();
         double minDuration = DBL_MAX;
-        ParseResultBase* dom = test.Parse(itr->json, itr->length);
+        ParseResultBase* dom = test.Parse(itr->json, itr->length, itr->filename);
 
         BENCH_MEMORYSTAT_INIT();
         bool supported = true;
@@ -549,7 +549,7 @@ static void BenchStatistics(const TestBase& test, const TestJsonList& testJsons,
 
                 timer.Start();
                 Stat stat;
-                supported = test.Statistics(dom, &stat);
+                supported = test.Statistics(dom, &stat, itr->filename);
                 timer.Stop();
 
                 BENCH_MEMORYSTAT_ITERATION(trial);
@@ -603,7 +603,7 @@ static void BenchSaxRoundtrip(const TestBase& test, const TestJsonList& testJson
                 MEMORYSTAT_SCOPE();
 
                 timer.Start();
-                json = test.SaxRoundtrip(itr->json, itr->length);
+                json = test.SaxRoundtrip(itr->json, itr->length, itr->filename);
                 timer.Stop();
 
                 BENCH_MEMORYSTAT_ITERATION(trial);
@@ -660,7 +660,7 @@ static void BenchSaxStatistics(const TestBase& test, const TestJsonList& testJso
 
                 timer.Start();
                 Stat stat;
-                supported = test.SaxStatistics(itr->json, itr->length, &stat);
+                supported = test.SaxStatistics(itr->json, itr->length, &stat, test.GetName());
                 timer.Stop();
 
                 BENCH_MEMORYSTAT_ITERATION(trial);
@@ -840,7 +840,7 @@ static void BenchConformance(const TestBase& test, FILE* fp) {
             continue;
 
         test.SetUp();
-        ParseResultBase* pr = test.Parse(json, length);
+        ParseResultBase* pr = test.Parse(json, length, path);
         bool result = pr != 0;
         fprintf(fp, "1. Parse Validation,%s,pass%02d,%s\n", test.GetName(), i, result ? "true" : "false");
         // printf("pass%02d: %s\n", i, result ? "true" : "false");
@@ -872,7 +872,7 @@ static void BenchConformance(const TestBase& test, FILE* fp) {
             continue;
 
         test.SetUp();
-        ParseResultBase* pr = test.Parse(json, length);
+        ParseResultBase* pr = test.Parse(json, length, path);
         bool result = pr == 0;
         fprintf(fp, "1. Parse Validation,%s,fail%02d,%s\n", test.GetName(), i, result ? "true" : "false");
         // printf("fail%02d: %s\n", i, result ? "true" : "false");
@@ -1114,11 +1114,11 @@ static void BenchConformance(const TestBase& test, FILE* fp) {
             continue;
 
         test.SetUp();
-        ParseResultBase* pr = test.Parse(json, length);
+        ParseResultBase* pr = test.Parse(json, length, path);
         bool result = false;
         bool terminate = false;
         if (pr) {
-            StringResultBase* sr = test.Stringify(pr);
+            StringResultBase* sr = test.Stringify(pr, path);
             delete pr;
 
             if (sr) {
