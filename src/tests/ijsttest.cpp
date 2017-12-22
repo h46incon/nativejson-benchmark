@@ -15,7 +15,7 @@ using namespace ijst;
 using namespace std;
 
 IJST_DEFINE_STRUCT(
-		Common
+		StCommon
 );
 /*
 template <typename Encoding = UTF8<> >
@@ -79,26 +79,41 @@ static void GenStat(Stat& stat, const Value& v) {
 }
 */
 
-class ijstParseResult : public ParseResultBase {
-public:
-	ijstParseResult(const char* json, size_t length) : st(0) {
-		(void)json;
-		(void)length;
-#ifdef TEST_INSITU
-		buffer = (char*)malloc(length + 1);
-        memcpy(buffer, json, length + 1);
-#endif
-	}
-	~ijstParseResult() { delete st; }
-	void* st;
-};
-
 class ijstStringResult : public StringResultBase {
 public:
-	virtual const char* c_str() const { return str.c_str(); }
+	ijstStringResult(string* _str) : str(_str) {}
+	~ijstStringResult() {delete str;}
+	virtual const char* c_str() const { return str->c_str(); }
 
-	string str;
+	string* str;
 };
+
+class ijstParseResultBase : public ParseResultBase {
+public:
+	virtual StringResultBase* Stringify() const = 0;
+};
+
+template <typename T>
+class ijstParseResult : public ijstParseResultBase {
+public:
+	ijstParseResult(T* _val = IJST_NULL) : st(_val)
+	{
+	}
+
+	StringResultBase* Stringify() const override {
+		string* out = new string();
+		int ret = st->_.Serialize(true, *out);
+		if (ret != 0) {
+			return 0;
+		}
+
+		return new ijstStringResult(out);
+	}
+
+	~ijstParseResult() { delete st; }
+	T* st;
+};
+
 
 
 class TEST_CLASS : public TestBase {
@@ -111,24 +126,25 @@ public:
 #if TEST_PARSE
 	virtual ParseResultBase* Parse(const char* json, size_t length, const char* case_name) const {
 		(void)length;
-		cout << "Parse====: " << case_name << endl;
-		ijstParseResult* pr = new ijstParseResult(json, length);
-		delete pr;
-		return 0;
+		StCommon* val = new StCommon();
+		int ret = val->_.Deserialize(json, length);
+		if (ret != 0) {
+			delete val;
+			return 0;
+		}
+
+		return new ijstParseResult<StCommon>(val);
+	}
+#endif
+
+#if TEST_STRINGIFY
+	virtual StringResultBase* Stringify(const ParseResultBase* parseResult) const {
+		const ijstParseResultBase *result = dynamic_cast<const ijstParseResultBase*>(parseResult);
+		return result->Stringify();
 	}
 #endif
 
 /*
-#if TEST_STRINGIFY
-	virtual StringResultBase* Stringify(const ParseResultBase* parseResult) const {
-		const RapidjsonParseResult* pr = static_cast<const RapidjsonParseResult*>(parseResult);
-		RapidjsonStringResult* sr = new RapidjsonStringResult;
-		Writer<StringBuffer> writer(sr->sb);
-		pr->document.Accept(writer);
-		return sr;
-	}
-#endif
-
 #if TEST_PRETTIFY
 	virtual StringResultBase* Prettify(const ParseResultBase* parseResult) const {
 		const RapidjsonParseResult* pr = static_cast<const RapidjsonParseResult*>(parseResult);
