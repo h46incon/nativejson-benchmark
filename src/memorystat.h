@@ -137,10 +137,12 @@ extern void MemoryStatFree(void* ptr);
 }
 #endif
 
+/*
 #define malloc MemoryStatMalloc
 #define calloc MemoryStatCalloc
 #define realloc MemoryStatRealloc
 #define free MemoryStatFree
+*/
 
 #ifdef __cplusplus
 namespace std {

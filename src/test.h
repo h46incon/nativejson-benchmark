@@ -8,9 +8,14 @@
 #include <cstdlib>
 
 #ifdef __CYGWIN__
+#define GCC_VERSION (__GNUC__ * 10000 \
+                     + __GNUC_MINOR__ * 100 \
+                     + __GNUC_PATCHLEVEL__)
+#if GCC_VERSION < 40901
+// Cygwin does not define std::snprintf, std::to_string(...), etc.
+
 #include <cstdio>
 #include <cstdarg>
-// Cygwin does not define std::snprintf, std::to_string(...), etc.
 namespace std {
 
 inline int snprintf(char * s, size_t n, const char * format, ... ) {
@@ -46,6 +51,7 @@ inline double stod(const std::string& str, std::size_t* pos = 0) {
 }
 
 } // namespace std
+#endif
 #endif
 
 class TestBase;
