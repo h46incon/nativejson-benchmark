@@ -118,3 +118,6 @@
 [submodule "thirdparty/facil.io"]
 	path = thirdparty/facil.io
 	url = https://github.com/boazsegev/facil.io.git
+[submodule "thirdparty/IJST"]
+	path = thirdparty/IJST
+	url = https://github.com/h46incon/IJST.git
