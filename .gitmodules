@@ -67,7 +67,6 @@
 [submodule "thirdparty/ArduinoJson"]
 	path = thirdparty/ArduinoJson
 	url = https://github.com/bblanchon/ArduinoJson.git
-
 [submodule "thirdparty/jeayeson"]
 	path = thirdparty/jeayeson
 	url = https://github.com/jeaye/jeayeson.git
@@ -107,18 +106,12 @@
 [submodule "thirdparty/ccan"]
 	path = thirdparty/ccan
 	url = https://github.com/rustyrussell/ccan.git
-[submodule "thirdparty/ujson"]
-	path = thirdparty/ujson
-	url = https://bitbucket.org/awangk/ujson.git
 [submodule "thirdparty/cJSON"]
 	path = thirdparty/cJSON
 	url = https://github.com/DaveGamble/cJSON.git
 [submodule "thirdparty/juson"]
 	path = thirdparty/juson
 	url = https://github.com/wgtdkp/juson.git
-[submodule "thirdparty/ULib"]
-	path = thirdparty/ULib
-	url = https://github.com/stefanocasazza/ULib
 [submodule "thirdparty/qajson4c"]
 	path = thirdparty/qajson4c
 	url = https://github.com/USESystemEngineeringBV/qajson4c.git

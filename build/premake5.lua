@@ -130,12 +130,9 @@ solution "benchmark"
             "../thirdparty/include/jeayeson/include/dummy",
   			"../thirdparty/jvar/include",
             "../thirdparty/pjson/inc",
-            "../thirdparty/ULib/include",
             "../thirdparty/facil.io/lib/facil/core/types",
             "../thirdparty/facil.io/lib/facil/core/types/fiobj",
         }
-
-      linkoptions { "../../thirdparty/ULib/src/ulib/.libs/libulib.a" }
 
 		files {
 			"../src/*.h",
@@ -188,7 +185,6 @@ solution "jsonstat"
         "../thirdparty/include/jeayeson/include/dummy",
         "../thirdparty/jvar/include",
         "../thirdparty/pjson/inc",
-        "../thirdparty/ULib/include",
         "../thirdparty/facil.io/lib/facil/core/types",
         "../thirdparty/facil.io/lib/facil/core/types/fiobj",
     }
@@ -235,8 +231,6 @@ solution "jsonstat"
 			libdirs { "../bin/jsonstat" }
 			links "jsonclibs2"
             setTargetObjDir("../bin/jsonstat")
-
-      linkoptions { "../../thirdparty/ULib/src/ulib/.libs/libulib.a" }
 
 			configuration "gmake"
 				buildoptions "-std=c++14"
