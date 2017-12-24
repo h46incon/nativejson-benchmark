@@ -9,12 +9,16 @@
 #define TEST_CLASS ijstTest
 #endif
 
+#define IJST_ENABLE_TO_JSON_OBJECT			1
+#define IJST_ENABLE_FROM_JSON_OBJECT		1
+
 #include "IJST/include/ijst/ijst.h"
 #include "IJST/include/ijst/types_std.h"
 #include <iostream>
 
 using namespace ijst;
 using namespace std;
+using namespace rapidjson;
 
 //=== canada
 namespace canada {
@@ -34,7 +38,7 @@ namespace canada {
 	IJST_DEFINE_STRUCT(
 			StCanada
 			, (IJST_TPRI(Str), type, "type", 0)
-			, (IJST_TVEC(IJST_TOBJ(StFeature)), features, "features", 0)
+//			, (IJST_TVEC(IJST_TOBJ(StFeature)), features, "features", 0)
 	)
 }
 typedef canada::StCanada StCanada;
@@ -135,7 +139,19 @@ typedef twitter::StTwitter StTwitter;
 IJST_DEFINE_STRUCT(
 		StCommon
 );
-/*
+
+IJST_DEFINE_VALUE(
+		StVal, IJST_TPRI(Raw), v, 0
+)
+
+IJST_DEFINE_VALUE(
+		VecDouble, IJST_TVEC(IJST_TPRI(Double)), v, 0
+)
+
+IJST_DEFINE_VALUE(
+		VecStr, IJST_TVEC(IJST_TPRI(Str)), v, 0
+)
+
 template <typename Encoding = UTF8<> >
 class StatHandler : public BaseReaderHandler<Encoding, StatHandler<Encoding> > {
 public:
@@ -195,7 +211,6 @@ static void GenStat(Stat& stat, const Value& v) {
 			break;
 	}
 }
-*/
 
 class ijstStringResult : public StringResultBase {
 public:
@@ -209,6 +224,7 @@ public:
 class ijstParseResultBase : public ParseResultBase {
 public:
 	virtual StringResultBase* Stringify() const = 0;
+	virtual bool GenStat(Stat* stat) const = 0;
 };
 
 template <typename T>
@@ -220,12 +236,28 @@ public:
 
 	StringResultBase* Stringify() const override {
 		string* out = new string();
-		int ret = st->_.Serialize(true, *out);
+		int ret = st->_.Serialize(false, *out);
 		if (ret != 0) {
-			return 0;
+			delete out;
+			return NULL;
 		}
 
 		return new ijstStringResult(out);
+	}
+
+	bool GenStat(Stat* stat) const override {
+		memset(stat, 0, sizeof(Stat));
+		Document doc;
+		if(st->_.ToJson(false, doc, doc.GetAllocator()) != 0) {
+			return false;
+		}
+#if SLOWER_STAT
+		StatHandler<> h(*stat);
+        doc->Accept(h);
+#else
+		::GenStat(*stat, doc);
+#endif
+		return true;
 	}
 
 	~ijstParseResult() { delete st; }
@@ -234,13 +266,15 @@ public:
 
 
 template<typename T>
-ijstParseResultBase* GetParseResult(const char* json, size_t length)
+ijstParseResultBase* GetParseResult(const char* json, size_t length, bool print_err = true)
 {
 	T* val = new T();
 	string strErrMsg;
 	int ret = val->_.Deserialize(json, length, UnknownMode::kKeep, &strErrMsg);
 	if (ret != 0) {
-		cout << "Deserialize error:  "  << strErrMsg << endl;
+		if (print_err) {
+			cout << "Deserialize error:  "  << strErrMsg << endl;
+		}
 		delete val;
 		return 0;
 	}
@@ -257,7 +291,7 @@ public:
 
 #if TEST_PARSE
 	virtual ParseResultBase* Parse(const char* json, size_t length, const char* case_name) const {
-		cout << case_name << endl;
+//		cout << case_name << endl;
 		if (strcmp(case_name, "canada.json") == 0) {
 			return GetParseResult<StCanada>(json, length);
 		}
@@ -267,6 +301,12 @@ public:
 		else if(strcmp(case_name, "citm_catalog.json") == 0) {
 			// Use common as a reference
 			return GetParseResult<StCommon>(json, length);
+		}
+		else if (strstr(case_name, "jsonchecker") != NULL) {
+			return GetParseResult<StVal>(json, length, false);
+		}
+		else if (strstr(case_name, "roundtrip") != NULL) {
+			return GetParseResult<StVal>(json, length);
 		}
 		else {
 			return GetParseResult<StCommon>(json, length);
@@ -291,21 +331,16 @@ public:
 		return sr;
 	}
 #endif
+*/
 
 #if TEST_STATISTICS
 	virtual bool Statistics(const ParseResultBase* parseResult, Stat* stat) const {
-		const RapidjsonParseResult* pr = static_cast<const RapidjsonParseResult*>(parseResult);
-		memset(stat, 0, sizeof(Stat));
-#if SLOWER_STAT
-		StatHandler<> h(*stat);
-        doc->Accept(h);
-#else
-		GenStat(*stat, pr->document);
-#endif
-		return true;
+		const ijstParseResultBase *result = dynamic_cast<const ijstParseResultBase*>(parseResult);
+		return result->GenStat(stat);
 	}
 #endif
 
+/*
 #if TEST_SAXROUNDTRIP
 	virtual StringResultBase* SaxRoundtrip(const char* json, size_t length) const {
 		(void)length;
@@ -362,39 +397,39 @@ public:
 		return reader.Parse<TEST_PARSE_FLAG>(is, handler);
 	}
 #endif
+ */
 
 #if TEST_CONFORMANCE
 	virtual bool ParseDouble(const char* json, double* d) const {
-		Document doc;
+		VecDouble v;
+		int ret;
 #ifdef TEST_INSITU
-		RapidjsonParseResult pr(json, strlen(json));
-        doc.ParseInsitu<TEST_PARSE_FLAG>(pr.buffer);
+		ret = v._.DeserializeInsitu(json);
 #else
-		doc.Parse<TEST_PARSE_FLAG>(json);
+		ret = v._.Deserialize(json, strlen(json));
 #endif
-		if (!doc.HasParseError() && doc.IsArray() && doc.Size() == 1 && doc[0].IsNumber()) {
-			*d = doc[0].GetDouble();
-			return true;
+		if (ret != 0) {
+			return false;
 		}
-		return false;
+		*d = v.v[0];
+		return true;
 	}
 
 	virtual bool ParseString(const char* json, std::string& s) const {
-		Document doc;
+		VecStr v;
+		int ret;
 #ifdef TEST_INSITU
-		RapidjsonParseResult pr(json, strlen(json));
-        doc.ParseInsitu<TEST_PARSE_FLAG>(pr.buffer);
+		ret = v._.DeserializeInsitu(json);
 #else
-		doc.Parse<TEST_PARSE_FLAG>(json);
+		ret = v._.Deserialize(json, strlen(json));
 #endif
-		if (!doc.HasParseError() && doc.IsArray() && doc.Size() == 1 && doc[0].IsString()) {
-			s = std::string(doc[0].GetString(), doc[0].GetStringLength());
-			return true;
+		if (ret != 0) {
+			return false;
 		}
-		return false;
+		s = v.v[0];
+		return true;
 	}
 #endif
- */
 };
 REGISTER_TEST(TEST_CLASS);
 
