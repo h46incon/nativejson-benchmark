@@ -14,6 +14,7 @@
 
 #include "IJST/include/ijst/ijst.h"
 #include "IJST/include/ijst/types_std.h"
+#include "IJST/include/ijst/types_container.h"
 #include <iostream>
 
 using namespace ijst;
@@ -236,7 +237,7 @@ public:
 
 	StringResultBase* Stringify() const override {
 		string* out = new string();
-		int ret = st->_.Serialize(false, *out);
+		int ret = st->_.Serialize(*out, FPush::kPushUnknown);
 		if (ret != 0) {
 			delete out;
 			return NULL;
@@ -248,7 +249,7 @@ public:
 	bool GenStat(Stat* stat) const override {
 		memset(stat, 0, sizeof(Stat));
 		Document doc;
-		if(st->_.ToJson(false, doc, doc.GetAllocator()) != 0) {
+		if(st->_.ToJson(doc, doc.GetAllocator(), FPush::kPushUnknown) != 0) {
 			return false;
 		}
 #if SLOWER_STAT
