@@ -137,6 +137,68 @@ namespace twitter{
 }
 typedef twitter::StTwitter StTwitter;
 
+namespace citm_catalog {
+	IJST_DEFINE_STRUCT(
+			StEvent
+			, (IJST_TPRI(Str), description, "description", FDesc::Nullable)
+			, (IJST_TPRI(UInt64), id, "id", 0)
+			, (IJST_TPRI(Str), logo, "logo", FDesc::Nullable)
+			, (IJST_TPRI(Str), name, "name", 0)
+			, (IJST_TVEC(IJST_TPRI(UInt64)), subTopicIds, "subTopicIds", 0)
+			, (IJST_TPRI(Int), subjectCode, "subjectCode", FDesc::Nullable)
+			, (IJST_TPRI(Str), subtitle, "subtitle", FDesc::Nullable)
+			, (IJST_TVEC(IJST_TPRI(UInt64)), topicIds, "topicIds", 0)
+	)
+
+	IJST_DEFINE_STRUCT(
+			StPrice
+			, (IJST_TPRI(Int), amount, "amount", 0)
+			, (IJST_TPRI(Int64), audienceSubCategoryId, "audienceSubCategoryId", 0)
+			, (IJST_TPRI(Int64), seatCategoryId, "seatCategoryId", 0)
+	)
+
+	IJST_DEFINE_STRUCT(
+			StArea
+			, (IJST_TPRI(UInt64), areaId, "areaId", 0)
+			, (IJST_TVEC(IJST_TPRI(UInt64)), blockIds, "blockIds", 0)
+	)
+
+	IJST_DEFINE_STRUCT(
+			StSeatCategory
+			, (IJST_TVEC(IJST_TOBJ(StArea)), areas, "areas", 0)
+			, (IJST_TPRI(UInt64), seatCategoryId, "seatCategoryId", 0)
+	)
+
+	IJST_DEFINE_STRUCT(
+			StPerformance
+			, (IJST_TPRI(UInt64), eventId, "eventId", 0)
+			, (IJST_TPRI(UInt64), id, "id", 0)
+			, (IJST_TPRI(Str), logo, "logo", FDesc::Nullable)
+			, (IJST_TPRI(Str), name, "name", FDesc::Nullable)
+			, (IJST_TVEC(IJST_TOBJ(StPrice)), prices, "prices", 0)
+			, (IJST_TVEC(IJST_TOBJ(StSeatCategory)), seatCategories, "seatCategories", 0)
+			, (IJST_TPRI(Str), seatMapImage, "seatMapImage", FDesc::Nullable)
+			, (IJST_TPRI(UInt64), start, "start", 0)
+			, (IJST_TPRI(Str), venueCode, "venueCode", 0)
+	)
+
+	IJST_DEFINE_STRUCT(
+			StCitmCatalog
+			, (IJST_TMAP(IJST_TPRI(Str)), areaNames, "areaNames", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), audienceSubCategoryNames, "audienceSubCategoryNames", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), blockNames, "blockNames", 0)
+			, (IJST_TMAP(IJST_TOBJ(StEvent)), events, "events", 0)
+			, (IJST_TVEC(IJST_TOBJ(StPerformance)), performamces, "performances", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), seatCategoryNames, "seatCategoryNames", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), subTopicNames, "subTopicNames", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), subjectNames, "subjectNames", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), topicNames, "topicNames", 0)
+			, (IJST_TMAP(IJST_TVEC(IJST_TPRI(UInt64))), topicSubTopics, "topicSubTopics", 0)
+			, (IJST_TMAP(IJST_TPRI(Str)), venueNames, "venueNames", 0)
+	)
+}
+typedef citm_catalog::StCitmCatalog StCitmCatalog;
+
 IJST_DEFINE_STRUCT(
 		StCommon
 );
@@ -300,8 +362,7 @@ public:
 			return GetParseResult<StTwitter>(json, length);
 		}
 		else if(strcmp(case_name, "citm_catalog.json") == 0) {
-			// Use common as a reference
-			return GetParseResult<StCommon>(json, length);
+			return GetParseResult<StCitmCatalog>(json, length);
 		}
 		else if (strstr(case_name, "jsonchecker") != NULL) {
 			return GetParseResult<StVal>(json, length, false);
