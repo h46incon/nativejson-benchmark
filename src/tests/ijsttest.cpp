@@ -39,7 +39,7 @@ namespace canada {
 	IJST_DEFINE_STRUCT(
 			StCanada
 			, (IJST_TPRI(Str), type, "type", 0)
-//			, (IJST_TVEC(IJST_TOBJ(StFeature)), features, "features", 0)
+			, (IJST_TVEC(IJST_TOBJ(StFeature)), features, "features", 0)
 	)
 }
 typedef canada::StCanada StCanada;
