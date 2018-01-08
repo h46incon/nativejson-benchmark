@@ -15,6 +15,7 @@
 #include "IJST/include/ijst/ijst.h"
 #include "IJST/include/ijst/types_std.h"
 #include "IJST/include/ijst/types_container.h"
+#include <rapidjson/prettywriter.h>
 #include <iostream>
 
 using namespace ijst;
@@ -284,10 +285,20 @@ public:
 	string* str;
 };
 
+class ijstStringBufResult : public StringResultBase {
+public:
+	ijstStringBufResult(rapidjson::StringBuffer* _buf) : buf(_buf) {}
+	~ijstStringBufResult() {delete buf;}
+	virtual const char* c_str() const { return buf->GetString(); }
+
+	rapidjson::StringBuffer* buf;
+};
+
 class ijstParseResultBase : public ParseResultBase {
 public:
 	virtual StringResultBase* Stringify() const = 0;
 	virtual bool GenStat(Stat* stat) const = 0;
+	virtual StringResultBase* Prettify() const = 0;
 };
 
 template <typename T>
@@ -306,6 +317,19 @@ public:
 		}
 
 		return new ijstStringResult(out);
+	}
+
+	StringResultBase* Prettify() const override {
+		rapidjson::StringBuffer* buf = new rapidjson::StringBuffer();
+		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(*buf);
+		ijst::HandlerWrapper<rapidjson::PrettyWriter<rapidjson::StringBuffer> > writerWrapper(writer);
+		int ret = st->_.Serialize(writerWrapper, FPush::kPushAllFields);
+		if (ret != 0) {
+			delete buf;
+			return NULL;
+		}
+
+		return new ijstStringBufResult(buf);
 	}
 
 	bool GenStat(Stat* stat) const override {
@@ -333,7 +357,7 @@ ijstParseResultBase* GetParseResult(const char* json, size_t length, bool print_
 {
 	T* val = new T();
 	string strErrMsg;
-	int ret = val->_.Deserialize(json, length, UnknownMode::kKeep, &strErrMsg);
+	int ret = val->_.Deserialize(json, length, UnknownMode::kKeep, true, &strErrMsg);
 	if (ret != 0) {
 		if (print_err) {
 			cout << "Deserialize error:  "  << strErrMsg << endl;
@@ -383,17 +407,12 @@ public:
 	}
 #endif
 
-/*
 #if TEST_PRETTIFY
 	virtual StringResultBase* Prettify(const ParseResultBase* parseResult) const {
-		const RapidjsonParseResult* pr = static_cast<const RapidjsonParseResult*>(parseResult);
-		RapidjsonStringResult* sr = new RapidjsonStringResult;
-		PrettyWriter<StringBuffer> writer(sr->sb);
-		pr->document.Accept(writer);
-		return sr;
+		const ijstParseResultBase *result = dynamic_cast<const ijstParseResultBase*>(parseResult);
+		return result->Prettify();
 	}
 #endif
-*/
 
 #if TEST_STATISTICS
 	virtual bool Statistics(const ParseResultBase* parseResult, Stat* stat) const {
