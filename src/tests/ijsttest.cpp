@@ -26,20 +26,20 @@ using namespace rapidjson;
 namespace canada {
 	IJST_DEFINE_STRUCT(
 			StGeometry
-			, (IJST_TPRI(Str), type, "type", 0)
-			, (IJST_TVEC(IJST_TVEC(IJST_TVEC(IJST_TPRI(Double)))), coordinates, "coordinates", 0)
+			, (T_string, type, "type", 0)
+			, (IJST_TVEC(IJST_TVEC(IJST_TVEC(T_double))), coordinates, "coordinates", 0)
 	);
 
 	IJST_DEFINE_STRUCT(
 			StFeature
-			, (IJST_TPRI(Str), type, "type", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), properties, "properties", 0)
+			, (T_string, type, "type", 0)
+			, (IJST_TMAP(T_string), properties, "properties", 0)
 			, (IJST_TOBJ(StGeometry), geometry, "geometry", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StCanada
-			, (IJST_TPRI(Str), type, "type", 0)
+			, (T_string, type, "type", 0)
 			, (IJST_TVEC(IJST_TOBJ(StFeature)), features, "features", 0)
 	)
 }
@@ -49,85 +49,85 @@ typedef canada::StCanada StCanada;
 namespace twitter{
 	IJST_DEFINE_STRUCT(
 			StUser
-			, (IJST_TPRI(UInt64), id, "id", 0)
-			, (IJST_TPRI(Str), id_str, "id_str", 0)
-			, (IJST_TPRI(Str), screen_name, "screen_name", FDesc::Nullable)
-			, (IJST_TPRI(Str), location, "location", FDesc::Nullable)
-			, (IJST_TPRI(Str), description, "description", FDesc::Nullable)
-			, (IJST_TPRI(Str), url, "url", FDesc::Nullable)
-			, (IJST_TPRI(Raw), entities, "entities", 0)
-			, (IJST_TPRI(RBool), v_protected, "protected", 0)
-			, (IJST_TPRI(Int), followers_count, "followers_count", 0)
-			, (IJST_TPRI(Int), friends_count, "friends_count", 0)
-			, (IJST_TPRI(Int), listed_count, "listed_count", 0)
-			, (IJST_TPRI(Str), created_at, "created_at", 0)
-			, (IJST_TPRI(Int), favourites_count, "favourites_count", 0)
-			, (IJST_TPRI(Int), utc_offset, "utc_offset", FDesc::Nullable)
-			, (IJST_TPRI(Str), time_zone, "time_zone", FDesc::Nullable)
-			, (IJST_TPRI(RBool), geo_enabled, "geo_enabled", 0)
-			, (IJST_TPRI(RBool), verified, "verified", 0)
-			, (IJST_TPRI(Int), statuses_count, "statuses_count", 0)
-			, (IJST_TPRI(Str), lang, "lang", 0)
-			, (IJST_TPRI(RBool), contributors_enabled, "contributors_enabled", 0)
-			, (IJST_TPRI(RBool), is_translator, "is_translator", 0)
-			, (IJST_TPRI(RBool), is_translation_enabled, "is_translation_enabled", 0)
-			, (IJST_TPRI(Str), profile_background_color, "profile_background_color", 0)
-			, (IJST_TPRI(Str), profile_background_image_url, "profile_background_image_url", 0)
-			, (IJST_TPRI(Str), profile_background_image_url_https, "profile_background_image_url_https", 0)
-			, (IJST_TPRI(RBool), profile_background_tile, "profile_background_tile", 0)
-			, (IJST_TPRI(Str), profile_image_url, "profile_image_url", 0)
-			, (IJST_TPRI(Str), profile_image_url_https, "profile_image_url_https", 0)
-			, (IJST_TPRI(Str), profile_banner_url, "profile_banner_url", FDesc::Optional)
-			, (IJST_TPRI(Str), profile_link_color, "profile_link_color", 0)
-			, (IJST_TPRI(Str), profile_sidebar_border_color, "profile_sidebar_border_color", 0)
-			, (IJST_TPRI(Str), profile_sidebar_fill_color, "profile_sidebar_fill_color", 0)
-			, (IJST_TPRI(Str), profile_text_color, "profile_text_color", 0)
-			, (IJST_TPRI(RBool), profile_use_background_image, "profile_use_background_image", 0)
-			, (IJST_TPRI(RBool), default_profile, "default_profile", 0)
-			, (IJST_TPRI(RBool), default_profile_image, "default_profile_image", 0)
-			, (IJST_TPRI(RBool), following, "following", 0)
-			, (IJST_TPRI(RBool), follow_request_sent, "follow_request_sent", 0)
-			, (IJST_TPRI(RBool), notifications, "notifications", 0)
+			, (T_uint64, id, "id", 0)
+			, (T_string, id_str, "id_str", 0)
+			, (T_string, screen_name, "screen_name", FDesc::Nullable)
+			, (T_string, location, "location", FDesc::Nullable)
+			, (T_string, description, "description", FDesc::Nullable)
+			, (T_string, url, "url", FDesc::Nullable)
+			, (T_raw, entities, "entities", 0)
+			, (T_bool, v_protected, "protected", 0)
+			, (T_int, followers_count, "followers_count", 0)
+			, (T_int, friends_count, "friends_count", 0)
+			, (T_int, listed_count, "listed_count", 0)
+			, (T_string, created_at, "created_at", 0)
+			, (T_int, favourites_count, "favourites_count", 0)
+			, (T_int, utc_offset, "utc_offset", FDesc::Nullable)
+			, (T_string, time_zone, "time_zone", FDesc::Nullable)
+			, (T_bool, geo_enabled, "geo_enabled", 0)
+			, (T_bool, verified, "verified", 0)
+			, (T_int, statuses_count, "statuses_count", 0)
+			, (T_string, lang, "lang", 0)
+			, (T_bool, contributors_enabled, "contributors_enabled", 0)
+			, (T_bool, is_translator, "is_translator", 0)
+			, (T_bool, is_translation_enabled, "is_translation_enabled", 0)
+			, (T_string, profile_background_color, "profile_background_color", 0)
+			, (T_string, profile_background_image_url, "profile_background_image_url", 0)
+			, (T_string, profile_background_image_url_https, "profile_background_image_url_https", 0)
+			, (T_bool, profile_background_tile, "profile_background_tile", 0)
+			, (T_string, profile_image_url, "profile_image_url", 0)
+			, (T_string, profile_image_url_https, "profile_image_url_https", 0)
+			, (T_string, profile_banner_url, "profile_banner_url", FDesc::Optional)
+			, (T_string, profile_link_color, "profile_link_color", 0)
+			, (T_string, profile_sidebar_border_color, "profile_sidebar_border_color", 0)
+			, (T_string, profile_sidebar_fill_color, "profile_sidebar_fill_color", 0)
+			, (T_string, profile_text_color, "profile_text_color", 0)
+			, (T_bool, profile_use_background_image, "profile_use_background_image", 0)
+			, (T_bool, default_profile, "default_profile", 0)
+			, (T_bool, default_profile_image, "default_profile_image", 0)
+			, (T_bool, following, "following", 0)
+			, (T_bool, follow_request_sent, "follow_request_sent", 0)
+			, (T_bool, notifications, "notifications", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StStatus
-			, (IJST_TMAP(IJST_TPRI(Str)), metadata, "metadata", 0)
-			, (IJST_TPRI(Str), created_at, "created_at", 0)
-			, (IJST_TPRI(UInt64), id, "id", 0)
-			, (IJST_TPRI(Str), id_str, "id_str", 0)
-			, (IJST_TPRI(Str), text, "text", 0)
-			, (IJST_TPRI(Str), source, "source", 0)
-			, (IJST_TPRI(RBool), truncated, "truncated", 0)
-			, (IJST_TPRI(UInt64), in_reply_to_status_id, "in_reply_to_status_id", FDesc::Nullable)
-			, (IJST_TPRI(Str), in_reply_to_status_id_str, "in_reply_to_status_id_str", FDesc::Nullable)
-			, (IJST_TPRI(UInt64), in_reply_to_user_id, "in_reply_to_user_id", FDesc::Nullable)
-			, (IJST_TPRI(Str), in_reply_to_user_id_str, "in_reply_to_user_id_str", FDesc::Nullable)
-			, (IJST_TPRI(Str), in_reply_to_screen_name, "in_reply_to_screen_name", FDesc::Nullable)
+			, (IJST_TMAP(T_string), metadata, "metadata", 0)
+			, (T_string, created_at, "created_at", 0)
+			, (T_uint64, id, "id", 0)
+			, (T_string, id_str, "id_str", 0)
+			, (T_string, text, "text", 0)
+			, (T_string, source, "source", 0)
+			, (T_bool, truncated, "truncated", 0)
+			, (T_uint64, in_reply_to_status_id, "in_reply_to_status_id", FDesc::Nullable)
+			, (T_string, in_reply_to_status_id_str, "in_reply_to_status_id_str", FDesc::Nullable)
+			, (T_uint64, in_reply_to_user_id, "in_reply_to_user_id", FDesc::Nullable)
+			, (T_string, in_reply_to_user_id_str, "in_reply_to_user_id_str", FDesc::Nullable)
+			, (T_string, in_reply_to_screen_name, "in_reply_to_screen_name", FDesc::Nullable)
 			, (IJST_TOBJ(StUser), user, "user", 0)
-			, (IJST_TPRI(Str), geo, "geo", FDesc::Nullable)
-			, (IJST_TPRI(Str), coordinates, "coordinates", FDesc::Nullable)
-			, (IJST_TPRI(Str), place, "place", FDesc::Nullable)
-			, (IJST_TPRI(Str), contributors, "contributors", FDesc::Nullable)
-			, (IJST_TPRI(Int), retweet_count, "retweet_count", 0)
-			, (IJST_TPRI(Int), favorite_count, "favorite_count", 0)
-			, (IJST_TPRI(Raw), entities, "entities", 0)
-			, (IJST_TPRI(RBool), favorited, "favorited", 0)
-			, (IJST_TPRI(RBool), retweeted, "retweeted", 0)
-			, (IJST_TPRI(Str), lang, "lang", 0)
+			, (T_string, geo, "geo", FDesc::Nullable)
+			, (T_string, coordinates, "coordinates", FDesc::Nullable)
+			, (T_string, place, "place", FDesc::Nullable)
+			, (T_string, contributors, "contributors", FDesc::Nullable)
+			, (T_int, retweet_count, "retweet_count", 0)
+			, (T_int, favorite_count, "favorite_count", 0)
+			, (T_raw, entities, "entities", 0)
+			, (T_bool, favorited, "favorited", 0)
+			, (T_bool, retweeted, "retweeted", 0)
+			, (T_string, lang, "lang", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StSearchMetaData
-			, (IJST_TPRI(Double), completed_in, "completed_in", 0)
-			, (IJST_TPRI(UInt64), max_id, "max_id", 0)
-			, (IJST_TPRI(Str), max_id_str, "max_id_str", 0)
-			, (IJST_TPRI(Str), next_results, "next_results", 0)
-			, (IJST_TPRI(Str), query, "query", 0)
-			, (IJST_TPRI(Str), refresh_url, "refresh_url", 0)
-			, (IJST_TPRI(Int), count, "count", 0)
-			, (IJST_TPRI(UInt64), since_id, "since_id", 0)
-			, (IJST_TPRI(Str), since_id_str, "since_id_str", 0)
+			, (T_double, completed_in, "completed_in", 0)
+			, (T_uint64, max_id, "max_id", 0)
+			, (T_string, max_id_str, "max_id_str", 0)
+			, (T_string, next_results, "next_results", 0)
+			, (T_string, query, "query", 0)
+			, (T_string, refresh_url, "refresh_url", 0)
+			, (T_int, count, "count", 0)
+			, (T_uint64, since_id, "since_id", 0)
+			, (T_string, since_id_str, "since_id_str", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
@@ -141,61 +141,61 @@ typedef twitter::StTwitter StTwitter;
 namespace citm_catalog {
 	IJST_DEFINE_STRUCT(
 			StEvent
-			, (IJST_TPRI(Str), description, "description", FDesc::Nullable)
-			, (IJST_TPRI(UInt64), id, "id", 0)
-			, (IJST_TPRI(Str), logo, "logo", FDesc::Nullable)
-			, (IJST_TPRI(Str), name, "name", 0)
-			, (IJST_TVEC(IJST_TPRI(UInt64)), subTopicIds, "subTopicIds", 0)
-			, (IJST_TPRI(Int), subjectCode, "subjectCode", FDesc::Nullable)
-			, (IJST_TPRI(Str), subtitle, "subtitle", FDesc::Nullable)
-			, (IJST_TVEC(IJST_TPRI(UInt64)), topicIds, "topicIds", 0)
+			, (T_string, description, "description", FDesc::Nullable)
+			, (T_uint64, id, "id", 0)
+			, (T_string, logo, "logo", FDesc::Nullable)
+			, (T_string, name, "name", 0)
+			, (IJST_TVEC(T_uint64), subTopicIds, "subTopicIds", 0)
+			, (T_int, subjectCode, "subjectCode", FDesc::Nullable)
+			, (T_string, subtitle, "subtitle", FDesc::Nullable)
+			, (IJST_TVEC(T_uint64), topicIds, "topicIds", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StPrice
-			, (IJST_TPRI(Int), amount, "amount", 0)
-			, (IJST_TPRI(Int64), audienceSubCategoryId, "audienceSubCategoryId", 0)
-			, (IJST_TPRI(Int64), seatCategoryId, "seatCategoryId", 0)
+			, (T_int, amount, "amount", 0)
+			, (T_int64, audienceSubCategoryId, "audienceSubCategoryId", 0)
+			, (T_int64, seatCategoryId, "seatCategoryId", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StArea
-			, (IJST_TPRI(UInt64), areaId, "areaId", 0)
-			, (IJST_TVEC(IJST_TPRI(UInt64)), blockIds, "blockIds", 0)
+			, (T_uint64, areaId, "areaId", 0)
+			, (IJST_TVEC(T_uint64), blockIds, "blockIds", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StSeatCategory
 			, (IJST_TVEC(IJST_TOBJ(StArea)), areas, "areas", 0)
-			, (IJST_TPRI(UInt64), seatCategoryId, "seatCategoryId", 0)
+			, (T_uint64, seatCategoryId, "seatCategoryId", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StPerformance
-			, (IJST_TPRI(UInt64), eventId, "eventId", 0)
-			, (IJST_TPRI(UInt64), id, "id", 0)
-			, (IJST_TPRI(Str), logo, "logo", FDesc::Nullable)
-			, (IJST_TPRI(Str), name, "name", FDesc::Nullable)
+			, (T_uint64, eventId, "eventId", 0)
+			, (T_uint64, id, "id", 0)
+			, (T_string, logo, "logo", FDesc::Nullable)
+			, (T_string, name, "name", FDesc::Nullable)
 			, (IJST_TVEC(IJST_TOBJ(StPrice)), prices, "prices", 0)
 			, (IJST_TVEC(IJST_TOBJ(StSeatCategory)), seatCategories, "seatCategories", 0)
-			, (IJST_TPRI(Str), seatMapImage, "seatMapImage", FDesc::Nullable)
-			, (IJST_TPRI(UInt64), start, "start", 0)
-			, (IJST_TPRI(Str), venueCode, "venueCode", 0)
+			, (T_string, seatMapImage, "seatMapImage", FDesc::Nullable)
+			, (T_uint64, start, "start", 0)
+			, (T_string, venueCode, "venueCode", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StCitmCatalog
-			, (IJST_TMAP(IJST_TPRI(Str)), areaNames, "areaNames", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), audienceSubCategoryNames, "audienceSubCategoryNames", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), blockNames, "blockNames", 0)
+			, (IJST_TMAP(T_string), areaNames, "areaNames", 0)
+			, (IJST_TMAP(T_string), audienceSubCategoryNames, "audienceSubCategoryNames", 0)
+			, (IJST_TMAP(T_string), blockNames, "blockNames", 0)
 			, (IJST_TMAP(IJST_TOBJ(StEvent)), events, "events", 0)
 			, (IJST_TVEC(IJST_TOBJ(StPerformance)), performamces, "performances", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), seatCategoryNames, "seatCategoryNames", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), subTopicNames, "subTopicNames", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), subjectNames, "subjectNames", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), topicNames, "topicNames", 0)
-			, (IJST_TMAP(IJST_TVEC(IJST_TPRI(UInt64))), topicSubTopics, "topicSubTopics", 0)
-			, (IJST_TMAP(IJST_TPRI(Str)), venueNames, "venueNames", 0)
+			, (IJST_TMAP(T_string), seatCategoryNames, "seatCategoryNames", 0)
+			, (IJST_TMAP(T_string), subTopicNames, "subTopicNames", 0)
+			, (IJST_TMAP(T_string), subjectNames, "subjectNames", 0)
+			, (IJST_TMAP(T_string), topicNames, "topicNames", 0)
+			, (IJST_TMAP(IJST_TVEC(T_uint64)), topicSubTopics, "topicSubTopics", 0)
+			, (IJST_TMAP(T_string), venueNames, "venueNames", 0)
 	)
 }
 typedef citm_catalog::StCitmCatalog StCitmCatalog;
@@ -205,15 +205,15 @@ IJST_DEFINE_STRUCT(
 );
 
 IJST_DEFINE_VALUE(
-		StVal, IJST_TPRI(Raw), v, 0
+		StVal, T_raw, v, 0
 )
 
 IJST_DEFINE_VALUE(
-		VecDouble, IJST_TVEC(IJST_TPRI(Double)), v, 0
+		VecDouble, IJST_TVEC(T_double), v, 0
 )
 
 IJST_DEFINE_VALUE(
-		VecStr, IJST_TVEC(IJST_TPRI(Str)), v, 0
+		VecStr, IJST_TVEC(T_string), v, 0
 )
 
 template <typename Encoding = UTF8<> >
@@ -310,7 +310,7 @@ public:
 
 	StringResultBase* Stringify() const override {
 		string* out = new string();
-		int ret = st->_.Serialize(*out, FPush::kPushUnknown);
+		int ret = st->_.Serialize(*out, FPush::kOnlyValidField);
 		if (ret != 0) {
 			delete out;
 			return NULL;
@@ -323,7 +323,7 @@ public:
 		rapidjson::StringBuffer* buf = new rapidjson::StringBuffer();
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(*buf);
 		ijst::HandlerWrapper<rapidjson::PrettyWriter<rapidjson::StringBuffer> > writerWrapper(writer);
-		int ret = st->_.Serialize(writerWrapper, FPush::kPushAllFields);
+		int ret = st->_.Serialize(writerWrapper, FPush::kOnlyValidField);
 		if (ret != 0) {
 			delete buf;
 			return NULL;
@@ -335,7 +335,7 @@ public:
 	bool GenStat(Stat* stat) const override {
 		memset(stat, 0, sizeof(Stat));
 		Document doc;
-		if(st->_.ToJson(doc, doc.GetAllocator(), FPush::kPushUnknown) != 0) {
+		if(st->_.ToJson(doc, doc.GetAllocator(), FPush::kOnlyValidField) != 0) {
 			return false;
 		}
 #if SLOWER_STAT
