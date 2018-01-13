@@ -34,13 +34,13 @@ namespace canada {
 			StFeature
 			, (T_string, type, "type", 0)
 			, (IJST_TMAP(T_string), properties, "properties", 0)
-			, (IJST_TOBJ(StGeometry), geometry, "geometry", 0)
+			, (IJST_TST(StGeometry), geometry, "geometry", 0)
 	)
 
 	IJST_DEFINE_STRUCT(
 			StCanada
 			, (T_string, type, "type", 0)
-			, (IJST_TVEC(IJST_TOBJ(StFeature)), features, "features", 0)
+			, (IJST_TVEC(IJST_TST(StFeature)), features, "features", 0)
 	)
 }
 typedef canada::StCanada StCanada;
@@ -104,7 +104,7 @@ namespace twitter{
 			, (T_uint64, in_reply_to_user_id, "in_reply_to_user_id", FDesc::Nullable)
 			, (T_string, in_reply_to_user_id_str, "in_reply_to_user_id_str", FDesc::Nullable)
 			, (T_string, in_reply_to_screen_name, "in_reply_to_screen_name", FDesc::Nullable)
-			, (IJST_TOBJ(StUser), user, "user", 0)
+			, (IJST_TST(StUser), user, "user", 0)
 			, (T_string, geo, "geo", FDesc::Nullable)
 			, (T_string, coordinates, "coordinates", FDesc::Nullable)
 			, (T_string, place, "place", FDesc::Nullable)
@@ -132,8 +132,8 @@ namespace twitter{
 
 	IJST_DEFINE_STRUCT(
 			StTwitter
-			, (IJST_TVEC(IJST_TOBJ(StStatus)), statuses, "statuses", 0)
-			, (IJST_TOBJ(StSearchMetaData), search_metadata, "search_metadata", 0)
+			, (IJST_TVEC(IJST_TST(StStatus)), statuses, "statuses", 0)
+			, (IJST_TST(StSearchMetaData), search_metadata, "search_metadata", 0)
 	)
 }
 typedef twitter::StTwitter StTwitter;
@@ -166,7 +166,7 @@ namespace citm_catalog {
 
 	IJST_DEFINE_STRUCT(
 			StSeatCategory
-			, (IJST_TVEC(IJST_TOBJ(StArea)), areas, "areas", 0)
+			, (IJST_TVEC(IJST_TST(StArea)), areas, "areas", 0)
 			, (T_uint64, seatCategoryId, "seatCategoryId", 0)
 	)
 
@@ -176,8 +176,8 @@ namespace citm_catalog {
 			, (T_uint64, id, "id", 0)
 			, (T_string, logo, "logo", FDesc::Nullable)
 			, (T_string, name, "name", FDesc::Nullable)
-			, (IJST_TVEC(IJST_TOBJ(StPrice)), prices, "prices", 0)
-			, (IJST_TVEC(IJST_TOBJ(StSeatCategory)), seatCategories, "seatCategories", 0)
+			, (IJST_TVEC(IJST_TST(StPrice)), prices, "prices", 0)
+			, (IJST_TVEC(IJST_TST(StSeatCategory)), seatCategories, "seatCategories", 0)
 			, (T_string, seatMapImage, "seatMapImage", FDesc::Nullable)
 			, (T_uint64, start, "start", 0)
 			, (T_string, venueCode, "venueCode", 0)
@@ -188,8 +188,8 @@ namespace citm_catalog {
 			, (IJST_TMAP(T_string), areaNames, "areaNames", 0)
 			, (IJST_TMAP(T_string), audienceSubCategoryNames, "audienceSubCategoryNames", 0)
 			, (IJST_TMAP(T_string), blockNames, "blockNames", 0)
-			, (IJST_TMAP(IJST_TOBJ(StEvent)), events, "events", 0)
-			, (IJST_TVEC(IJST_TOBJ(StPerformance)), performamces, "performances", 0)
+			, (IJST_TMAP(IJST_TST(StEvent)), events, "events", 0)
+			, (IJST_TVEC(IJST_TST(StPerformance)), performamces, "performances", 0)
 			, (IJST_TMAP(T_string), seatCategoryNames, "seatCategoryNames", 0)
 			, (IJST_TMAP(T_string), subTopicNames, "subTopicNames", 0)
 			, (IJST_TMAP(T_string), subjectNames, "subjectNames", 0)
