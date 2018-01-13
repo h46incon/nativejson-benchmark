@@ -22,6 +22,10 @@ using namespace ijst;
 using namespace std;
 using namespace rapidjson;
 
+#ifndef MAP_TYPE
+#define MAP_TYPE	IJST_TOBJ
+#endif // !MAP_TYPE
+
 //=== canada
 namespace canada {
 	IJST_DEFINE_STRUCT(
@@ -33,7 +37,7 @@ namespace canada {
 	IJST_DEFINE_STRUCT(
 			StFeature
 			, (T_string, type, "type", 0)
-			, (IJST_TMAP(T_string), properties, "properties", 0)
+			, (MAP_TYPE(T_string), properties, "properties", 0)
 			, (IJST_TST(StGeometry), geometry, "geometry", 0)
 	)
 
@@ -92,7 +96,7 @@ namespace twitter{
 
 	IJST_DEFINE_STRUCT(
 			StStatus
-			, (IJST_TMAP(T_string), metadata, "metadata", 0)
+			, (MAP_TYPE(T_string), metadata, "metadata", 0)
 			, (T_string, created_at, "created_at", 0)
 			, (T_uint64, id, "id", 0)
 			, (T_string, id_str, "id_str", 0)
@@ -185,17 +189,17 @@ namespace citm_catalog {
 
 	IJST_DEFINE_STRUCT(
 			StCitmCatalog
-			, (IJST_TMAP(T_string), areaNames, "areaNames", 0)
-			, (IJST_TMAP(T_string), audienceSubCategoryNames, "audienceSubCategoryNames", 0)
-			, (IJST_TMAP(T_string), blockNames, "blockNames", 0)
-			, (IJST_TMAP(IJST_TST(StEvent)), events, "events", 0)
+			, (MAP_TYPE(T_string), areaNames, "areaNames", 0)
+			, (MAP_TYPE(T_string), audienceSubCategoryNames, "audienceSubCategoryNames", 0)
+			, (MAP_TYPE(T_string), blockNames, "blockNames", 0)
+			, (MAP_TYPE(IJST_TST(StEvent)), events, "events", 0)
 			, (IJST_TVEC(IJST_TST(StPerformance)), performamces, "performances", 0)
-			, (IJST_TMAP(T_string), seatCategoryNames, "seatCategoryNames", 0)
-			, (IJST_TMAP(T_string), subTopicNames, "subTopicNames", 0)
-			, (IJST_TMAP(T_string), subjectNames, "subjectNames", 0)
-			, (IJST_TMAP(T_string), topicNames, "topicNames", 0)
-			, (IJST_TMAP(IJST_TVEC(T_uint64)), topicSubTopics, "topicSubTopics", 0)
-			, (IJST_TMAP(T_string), venueNames, "venueNames", 0)
+			, (MAP_TYPE(T_string), seatCategoryNames, "seatCategoryNames", 0)
+			, (MAP_TYPE(T_string), subTopicNames, "subTopicNames", 0)
+			, (MAP_TYPE(T_string), subjectNames, "subjectNames", 0)
+			, (MAP_TYPE(T_string), topicNames, "topicNames", 0)
+			, (MAP_TYPE(IJST_TVEC(T_uint64)), topicSubTopics, "topicSubTopics", 0)
+			, (MAP_TYPE(T_string), venueNames, "venueNames", 0)
 	)
 }
 typedef citm_catalog::StCitmCatalog StCitmCatalog;
