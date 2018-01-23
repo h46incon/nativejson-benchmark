@@ -246,40 +246,6 @@ private:
 	Stat& stat_;
 };
 
-static void GenStat(Stat& stat, const Value& v) {
-	switch (v.GetType()) {
-		case kNullType:  stat.nullCount++; break;
-		case kFalseType: stat.falseCount++; break;
-		case kTrueType:  stat.trueCount++; break;
-
-		case kObjectType:
-			for (Value::ConstMemberIterator m = v.MemberBegin(); m != v.MemberEnd(); ++m) {
-				stat.stringLength += m->name.GetStringLength();
-				GenStat(stat, m->value);
-			}
-			stat.objectCount++;
-			stat.memberCount += (v.MemberEnd() - v.MemberBegin());
-			stat.stringCount += (v.MemberEnd() - v.MemberBegin()); // Key
-			break;
-
-		case kArrayType:
-			for (Value::ConstValueIterator i = v.Begin(); i != v.End(); ++i)
-				GenStat(stat, *i);
-			stat.arrayCount++;
-			stat.elementCount += v.Size();
-			break;
-
-		case kStringType:
-			stat.stringCount++;
-			stat.stringLength += v.GetStringLength();
-			break;
-
-		case kNumberType:
-			stat.numberCount++;
-			break;
-	}
-}
-
 class ijstStringResult : public StringResultBase {
 public:
 	ijstStringResult(string* _str) : str(_str) {}
@@ -314,7 +280,7 @@ public:
 
 	StringResultBase* Stringify() const override {
 		string* out = new string();
-		int ret = st->_.Serialize(*out, FPush::kOnlyValidField);
+		int ret = st->_.Serialize(*out, SerFlag::kOnlyValidField);
 		if (ret != 0) {
 			delete out;
 			return NULL;
@@ -327,7 +293,7 @@ public:
 		rapidjson::StringBuffer* buf = new rapidjson::StringBuffer();
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(*buf);
 		ijst::HandlerWrapper<rapidjson::PrettyWriter<rapidjson::StringBuffer> > writerWrapper(writer);
-		int ret = st->_.Serialize(writerWrapper, FPush::kOnlyValidField);
+		int ret = st->_.Serialize(writerWrapper, SerFlag::kOnlyValidField);
 		if (ret != 0) {
 			delete buf;
 			return NULL;
@@ -338,16 +304,11 @@ public:
 
 	bool GenStat(Stat* stat) const override {
 		memset(stat, 0, sizeof(Stat));
-		Document doc;
-		if(st->_.ToJson(doc, doc.GetAllocator(), FPush::kOnlyValidField) != 0) {
+		StatHandler<> h(*stat);
+		HandlerWrapper<StatHandler<> > writerWrapper(h);
+		if(st->_.Serialize(writerWrapper, SerFlag::kOnlyValidField) != 0) {
 			return false;
 		}
-#if SLOWER_STAT
-		StatHandler<> h(*stat);
-        doc->Accept(h);
-#else
-		::GenStat(*stat, doc);
-#endif
 		return true;
 	}
 
@@ -360,11 +321,14 @@ template<typename T>
 ijstParseResultBase* GetParseResult(const char* json, size_t length, bool print_err = true)
 {
 	T* val = new T();
-	string strErrMsg;
-	int ret = val->_.Deserialize(json, length, UnknownMode::kKeep, true, &strErrMsg);
+	Document errDoc;
+	int ret = val->_.Deserialize(json, length, DeserFlag::kNoneFlag, &errDoc);
 	if (ret != 0) {
 		if (print_err) {
-			cout << "Deserialize error:  "  << strErrMsg << endl;
+			StringBuffer sb;
+			Writer<StringBuffer> writer;
+			errDoc.Accept(writer);
+			cout << "Deserialize error:  "  << sb.GetString() << endl;
 		}
 		delete val;
 		return 0;
