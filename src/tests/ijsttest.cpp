@@ -280,7 +280,7 @@ public:
 
 	StringResultBase* Stringify() const override {
 		string* out = new string();
-		int ret = st->_.Serialize(*out, SerFlag::kOnlyValidField);
+		int ret = st->_.Serialize(*out, SerFlag::kIgnoreMissing);
 		if (ret != 0) {
 			delete out;
 			return NULL;
@@ -293,7 +293,7 @@ public:
 		rapidjson::StringBuffer* buf = new rapidjson::StringBuffer();
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(*buf);
 		ijst::HandlerWrapper<rapidjson::PrettyWriter<rapidjson::StringBuffer> > writerWrapper(writer);
-		int ret = st->_.Serialize(writerWrapper, SerFlag::kOnlyValidField);
+		int ret = st->_.Serialize(writerWrapper, SerFlag::kIgnoreMissing);
 		if (ret != 0) {
 			delete buf;
 			return NULL;
@@ -306,7 +306,7 @@ public:
 		memset(stat, 0, sizeof(Stat));
 		StatHandler<> h(*stat);
 		HandlerWrapper<StatHandler<> > writerWrapper(h);
-		if(st->_.Serialize(writerWrapper, SerFlag::kOnlyValidField) != 0) {
+		if(st->_.Serialize(writerWrapper, SerFlag::kIgnoreMissing) != 0) {
 			return false;
 		}
 		return true;
