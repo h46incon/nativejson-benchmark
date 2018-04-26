@@ -1,3 +1,4 @@
 canada.json
+canada_flat.json
 citm_catalog.json
 twitter.json

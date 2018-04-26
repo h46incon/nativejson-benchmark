@@ -49,6 +49,14 @@ namespace canada {
 }
 typedef canada::StCanada StCanada;
 
+//=== canada_flat
+namespace canada_flat {
+IJST_DEFINE_STRUCT(
+		StCanadaFlat
+		, (IJST_TVEC(T_double), coordinates, "coordinates", 0)
+);
+}
+typedef canada_flat::StCanadaFlat StCanadaFlat;
 //=== twitter
 namespace twitter{
 	IJST_DEFINE_STRUCT(
@@ -349,6 +357,9 @@ public:
 //		cout << case_name << endl;
 		if (strcmp(case_name, "canada.json") == 0) {
 			return GetParseResult<StCanada>(json, length);
+		}
+		else if (strcmp(case_name, "canada_flat.json") == 0) {
+			return GetParseResult<StCanadaFlat>(json, length);
 		}
 		else if (strcmp(case_name, "twitter.json") == 0) {
 			return GetParseResult<StTwitter>(json, length);
