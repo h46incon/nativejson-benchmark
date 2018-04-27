@@ -1,3 +1,4 @@
+pure_obj.json
 canada.json
 canada_flat.json
 citm_catalog.json

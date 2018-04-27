@@ -212,6 +212,58 @@ namespace citm_catalog {
 }
 typedef citm_catalog::StCitmCatalog StCitmCatalog;
 
+namespace pure_obj {
+IJST_DEFINE_STRUCT(
+		StL1
+		, (T_int, i1, "i1", 0)   , (T_int, i2, "i2", 0)   , (T_int, i3, "i3", 0)   , (T_int, i4, "i4", 0)   , (T_int, i5, "i5", 0)
+		, (T_int, i6, "i6", 0)   , (T_int, i7, "i7", 0)   , (T_int, i8, "i8", 0)   , (T_int, i9, "i9", 0)   , (T_int, i10, "i10", 0)
+		, (T_int, i11, "i11", 0) , (T_int, i12, "i12", 0) , (T_int, i13, "i13", 0) , (T_int, i14, "i14", 0) , (T_int, i15, "i15", 0)
+		, (T_int, i16, "i16", 0) , (T_int, i17, "i17", 0) , (T_int, i18, "i18", 0) , (T_int, i19, "i19", 0) , (T_int, i20, "i20", 0)
+		, (T_int, i21, "i21", 0) , (T_int, i22, "i22", 0) , (T_int, i23, "i23", 0) , (T_int, i24, "i24", 0) , (T_int, i25, "i25", 0)
+		, (T_int, i26, "i26", 0) , (T_int, i27, "i27", 0) , (T_int, i28, "i28", 0) , (T_int, i29, "i29", 0) , (T_int, i30, "i30", 0)
+		, (T_int, i31, "i31", 0) , (T_int, i32, "i32", 0) , (T_int, i33, "i33", 0) , (T_int, i34, "i34", 0) , (T_int, i35, "i35", 0)
+		, (T_int, i36, "i36", 0) , (T_int, i37, "i37", 0) , (T_int, i38, "i38", 0) , (T_int, i39, "i39", 0) , (T_int, i40, "i40", 0)
+		, (T_int, i41, "i41", 0) , (T_int, i42, "i42", 0) , (T_int, i43, "i43", 0) , (T_int, i44, "i44", 0) , (T_int, i45, "i45", 0)
+		, (T_int, i46, "i46", 0) , (T_int, i47, "i47", 0) , (T_int, i48, "i48", 0) , (T_int, i49, "i49", 0) , (T_int, i50, "i50", 0)
+		, (T_int, i51, "i51", 0) , (T_int, i52, "i52", 0) , (T_int, i53, "i53", 0) , (T_int, i54, "i54", 0) , (T_int, i55, "i55", 0)
+		, (T_int, i56, "i56", 0) , (T_int, i57, "i57", 0) , (T_int, i58, "i58", 0) , (T_int, i59, "i59", 0) , (T_int, i60, "i60", 0)
+		, (T_int, i61, "i61", 0) , (T_int, i62, "i62", 0) , (T_int, i63, "i63", 0) , (T_int, i64, "i64", 0)
+)
+IJST_DEFINE_STRUCT(
+		StL2
+		, (IJST_TST(StL1), i1, "i1", 0)   , (IJST_TST(StL1), i2, "i2", 0)   , (IJST_TST(StL1), i3, "i3", 0)   , (IJST_TST(StL1), i4, "i4", 0)   , (IJST_TST(StL1), i5, "i5", 0)
+		, (IJST_TST(StL1), i6, "i6", 0)   , (IJST_TST(StL1), i7, "i7", 0)   , (IJST_TST(StL1), i8, "i8", 0)   , (IJST_TST(StL1), i9, "i9", 0)   , (IJST_TST(StL1), i10, "i10", 0)
+		, (IJST_TST(StL1), i11, "i11", 0) , (IJST_TST(StL1), i12, "i12", 0) , (IJST_TST(StL1), i13, "i13", 0) , (IJST_TST(StL1), i14, "i14", 0) , (IJST_TST(StL1), i15, "i15", 0)
+		, (IJST_TST(StL1), i16, "i16", 0) , (IJST_TST(StL1), i17, "i17", 0) , (IJST_TST(StL1), i18, "i18", 0) , (IJST_TST(StL1), i19, "i19", 0) , (IJST_TST(StL1), i20, "i20", 0)
+		, (IJST_TST(StL1), i21, "i21", 0) , (IJST_TST(StL1), i22, "i22", 0) , (IJST_TST(StL1), i23, "i23", 0) , (IJST_TST(StL1), i24, "i24", 0) , (IJST_TST(StL1), i25, "i25", 0)
+		, (IJST_TST(StL1), i26, "i26", 0) , (IJST_TST(StL1), i27, "i27", 0) , (IJST_TST(StL1), i28, "i28", 0) , (IJST_TST(StL1), i29, "i29", 0) , (IJST_TST(StL1), i30, "i30", 0)
+		, (IJST_TST(StL1), i31, "i31", 0) , (IJST_TST(StL1), i32, "i32", 0) , (IJST_TST(StL1), i33, "i33", 0) , (IJST_TST(StL1), i34, "i34", 0) , (IJST_TST(StL1), i35, "i35", 0)
+		, (IJST_TST(StL1), i36, "i36", 0) , (IJST_TST(StL1), i37, "i37", 0) , (IJST_TST(StL1), i38, "i38", 0) , (IJST_TST(StL1), i39, "i39", 0) , (IJST_TST(StL1), i40, "i40", 0)
+		, (IJST_TST(StL1), i41, "i41", 0) , (IJST_TST(StL1), i42, "i42", 0) , (IJST_TST(StL1), i43, "i43", 0) , (IJST_TST(StL1), i44, "i44", 0) , (IJST_TST(StL1), i45, "i45", 0)
+		, (IJST_TST(StL1), i46, "i46", 0) , (IJST_TST(StL1), i47, "i47", 0) , (IJST_TST(StL1), i48, "i48", 0) , (IJST_TST(StL1), i49, "i49", 0) , (IJST_TST(StL1), i50, "i50", 0)
+		, (IJST_TST(StL1), i51, "i51", 0) , (IJST_TST(StL1), i52, "i52", 0) , (IJST_TST(StL1), i53, "i53", 0) , (IJST_TST(StL1), i54, "i54", 0) , (IJST_TST(StL1), i55, "i55", 0)
+		, (IJST_TST(StL1), i56, "i56", 0) , (IJST_TST(StL1), i57, "i57", 0) , (IJST_TST(StL1), i58, "i58", 0) , (IJST_TST(StL1), i59, "i59", 0) , (IJST_TST(StL1), i60, "i60", 0)
+		, (IJST_TST(StL1), i61, "i61", 0) , (IJST_TST(StL1), i62, "i62", 0) , (IJST_TST(StL1), i63, "i63", 0) , (IJST_TST(StL1), i64, "i64", 0)
+)
+IJST_DEFINE_STRUCT(
+		StL3
+		, (IJST_TST(StL2), i1, "i1", 0)   , (IJST_TST(StL2), i2, "i2", 0)   , (IJST_TST(StL2), i3, "i3", 0)   , (IJST_TST(StL2), i4, "i4", 0)   , (IJST_TST(StL2), i5, "i5", 0)
+		, (IJST_TST(StL2), i6, "i6", 0)   , (IJST_TST(StL2), i7, "i7", 0)   , (IJST_TST(StL2), i8, "i8", 0)   , (IJST_TST(StL2), i9, "i9", 0)   , (IJST_TST(StL2), i10, "i10", 0)
+		, (IJST_TST(StL2), i11, "i11", 0) , (IJST_TST(StL2), i12, "i12", 0) , (IJST_TST(StL2), i13, "i13", 0) , (IJST_TST(StL2), i14, "i14", 0) , (IJST_TST(StL2), i15, "i15", 0)
+		, (IJST_TST(StL2), i16, "i16", 0) , (IJST_TST(StL2), i17, "i17", 0) , (IJST_TST(StL2), i18, "i18", 0) , (IJST_TST(StL2), i19, "i19", 0) , (IJST_TST(StL2), i20, "i20", 0)
+		, (IJST_TST(StL2), i21, "i21", 0) , (IJST_TST(StL2), i22, "i22", 0) , (IJST_TST(StL2), i23, "i23", 0) , (IJST_TST(StL2), i24, "i24", 0) , (IJST_TST(StL2), i25, "i25", 0)
+		, (IJST_TST(StL2), i26, "i26", 0) , (IJST_TST(StL2), i27, "i27", 0) , (IJST_TST(StL2), i28, "i28", 0) , (IJST_TST(StL2), i29, "i29", 0) , (IJST_TST(StL2), i30, "i30", 0)
+		, (IJST_TST(StL2), i31, "i31", 0) , (IJST_TST(StL2), i32, "i32", 0) , (IJST_TST(StL2), i33, "i33", 0) , (IJST_TST(StL2), i34, "i34", 0) , (IJST_TST(StL2), i35, "i35", 0)
+		, (IJST_TST(StL2), i36, "i36", 0) , (IJST_TST(StL2), i37, "i37", 0) , (IJST_TST(StL2), i38, "i38", 0) , (IJST_TST(StL2), i39, "i39", 0) , (IJST_TST(StL2), i40, "i40", 0)
+		, (IJST_TST(StL2), i41, "i41", 0) , (IJST_TST(StL2), i42, "i42", 0) , (IJST_TST(StL2), i43, "i43", 0) , (IJST_TST(StL2), i44, "i44", 0) , (IJST_TST(StL2), i45, "i45", 0)
+		, (IJST_TST(StL2), i46, "i46", 0) , (IJST_TST(StL2), i47, "i47", 0) , (IJST_TST(StL2), i48, "i48", 0) , (IJST_TST(StL2), i49, "i49", 0) , (IJST_TST(StL2), i50, "i50", 0)
+		, (IJST_TST(StL2), i51, "i51", 0) , (IJST_TST(StL2), i52, "i52", 0) , (IJST_TST(StL2), i53, "i53", 0) , (IJST_TST(StL2), i54, "i54", 0) , (IJST_TST(StL2), i55, "i55", 0)
+		, (IJST_TST(StL2), i56, "i56", 0) , (IJST_TST(StL2), i57, "i57", 0) , (IJST_TST(StL2), i58, "i58", 0) , (IJST_TST(StL2), i59, "i59", 0) , (IJST_TST(StL2), i60, "i60", 0)
+		, (IJST_TST(StL2), i61, "i61", 0) , (IJST_TST(StL2), i62, "i62", 0) , (IJST_TST(StL2), i63, "i63", 0) , (IJST_TST(StL2), i64, "i64", 0)
+)
+}
+typedef pure_obj::StL3 StPureObj;
+
 IJST_DEFINE_STRUCT(
 		StCommon
 );
@@ -366,6 +418,9 @@ public:
 		}
 		else if(strcmp(case_name, "citm_catalog.json") == 0) {
 			return GetParseResult<StCitmCatalog>(json, length);
+		}
+		else if(strcmp(case_name, "pure_obj.json") == 0) {
+			return GetParseResult<StPureObj>(json, length);
 		}
 		else if (strstr(case_name, "jsonchecker") != NULL) {
 			return GetParseResult<StVal>(json, length, false);
