@@ -308,11 +308,11 @@ private:
 
 class ijstStringResult : public StringResultBase {
 public:
-	ijstStringResult(string* _str) : str(_str) {}
-	~ijstStringResult() {delete str;}
-	virtual const char* c_str() const { return str->c_str(); }
+	ijstStringResult(rapidjson::StringBuffer* _rsb) : rsb(_rsb) {}
+	~ijstStringResult() {delete rsb;}
+	virtual const char* c_str() const { return rsb->GetString(); }
 
-	string* str;
+	rapidjson::StringBuffer* rsb;
 };
 
 class ijstStringBufResult : public StringResultBase {
@@ -339,14 +339,17 @@ public:
 	}
 
 	StringResultBase* Stringify() const override {
-		string* out = new string();
-		int ret = st->_.Serialize(*out, SerFlag::kIgnoreMissing);
+		rapidjson::StringBuffer* sb = new rapidjson::StringBuffer();
+		typedef rapidjson::Writer<rapidjson::StringBuffer> TWriter;
+		TWriter writer(*sb);
+		ijst::HandlerWrapper<TWriter> writerWrapper(writer);
+		int ret = st->_.Serialize(writerWrapper, SerFlag::kIgnoreMissing);
 		if (ret != 0) {
-			delete out;
+			delete sb;
 			return NULL;
 		}
 
-		return new ijstStringResult(out);
+		return new ijstStringResult(sb);
 	}
 
 	StringResultBase* Prettify() const override {
